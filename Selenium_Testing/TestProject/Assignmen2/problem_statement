@@ -1,0 +1,6 @@
+Write a program to fetch the response from the API and generate the following output:
+             Latest Chrome version in Windows
+             Latest Firefox version in Windows
+             Latest os_version for iPhone 8
+Fetch the JSON from API https://www.browserstack.com/list-of-browsers-and-platforms.json?product=automate
+PS - Please don't use Selenium and exclude Beta/Dev versions

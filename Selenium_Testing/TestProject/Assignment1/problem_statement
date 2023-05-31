@@ -1,0 +1,4 @@
+Generate a cucumber(or any framework) scenario which should do the following things:
+1. Open automate capability builder doc https://www.browserstack.com/automate/capabilities
+2. Select any os and device/browser from the drop-down and it should reflect on RHS(code section).
+Note: Os and browser/device selection should be parameterized.
