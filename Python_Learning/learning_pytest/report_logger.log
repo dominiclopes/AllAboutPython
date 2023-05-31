@@ -1,0 +1,33 @@
+[10-12-19 23:28:50.905][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [14832] [MainThread] Initialized the logger
+[10-12-19 23:28:50.907][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [14832] [MainThread] Lets start the Magic
+[10-12-19 23:28:57.921][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [14832] [MainThread] Magic has ended
+[10-12-19 23:29:36.983][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [11780] [MainThread] Initialized the logger
+[10-12-19 23:29:36.985][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [11780] [MainThread] Lets start the Magic
+[10-12-19 23:29:44.172][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [11780] [MainThread] Magic has ended
+[10-12-19 23:29:56.225][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [32204] [MainThread] Initialized the logger
+[10-12-19 23:29:56.227][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [32204] [MainThread] Lets start the Magic
+[10-12-19 23:30:03.265][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [32204] [MainThread] Magic has ended
+[10-12-19 23:30:17.755][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [18264] [MainThread] Initialized the logger
+[10-12-19 23:30:17.757][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [18264] [MainThread] Lets start the Magic
+[10-12-19 23:30:24.888][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [18264] [MainThread] Magic has ended
+[10-12-19 23:30:37.707][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [20496] [MainThread] Initialized the logger
+[10-12-19 23:30:37.708][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [20496] [MainThread] Lets start the Magic
+[10-12-19 23:30:44.961][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [20496] [MainThread] Magic has ended
+[10-12-19 23:32:41.386][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [4892] [MainThread] Initialized the logger
+[10-12-19 23:32:41.388][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [4892] [MainThread] Lets start the Magic
+[10-12-19 23:32:42.437][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [4892] [MainThread] Magic has ended
+[10-12-19 23:33:10.397][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [19992] [MainThread] Initialized the logger
+[10-12-19 23:33:10.398][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [19992] [MainThread] Lets start the Magic
+[10-12-19 23:33:17.478][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [19992] [MainThread] Magic has ended
+[10-12-19 23:33:55.861][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [32940] [MainThread] Initialized the logger
+[10-12-19 23:33:55.862][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [32940] [MainThread] Lets start the Magic
+[10-12-19 23:34:03.001][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [32940] [MainThread] Magic has ended
+[10-12-19 23:34:30.095][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [5744] [MainThread] Initialized the logger
+[10-12-19 23:34:30.096][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [5744] [MainThread] Lets start the Magic
+[10-12-19 23:34:36.932][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [5744] [MainThread] Magic has ended
+[10-12-19 23:36:14.200][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [2452] [MainThread] Initialized the logger
+[10-12-19 23:36:14.201][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [2452] [MainThread] Lets start the Magic
+[10-12-19 23:36:21.180][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [2452] [MainThread] Magic has ended
+[10-12-19 23:36:58.240][INFO][logging_helper][logger_name:learning_pytest.logging_helper][MainProcess] [30076] [MainThread] Initialized the logger
+[10-12-19 23:36:58.241][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [30076] [MainThread] Lets start the Magic
+[10-12-19 23:37:05.334][INFO][test_allure_logging][logger_name:learning_pytest.logging_helper][MainProcess] [30076] [MainThread] Magic has ended

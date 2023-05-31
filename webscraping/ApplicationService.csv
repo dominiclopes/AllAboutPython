@@ -1,0 +1,25 @@
+Tag,get,post,put/patch,delete
+Application,6,1,6,0
+Documents,1,2,0,1
+Application Bank Account,1,1,1,1
+Application Company Profile,1,1,0,1
+Application CreditBureau,1,1,0,0
+Application CreditLimit,1,1,0,0
+Document,0,1,0,0
+Application Existing Banking Arrangement,1,1,0,1
+Application Exposure,1,1,0,0
+Facility,0,0,1,0
+Application Financial Statement,1,1,0,0
+Kyc,1,2,1,0
+Loan,0,0,1,0
+Application Member,2,1,2,1
+Decision,3,2,0,0
+Application Member BIP,1,2,0,1
+Application Member Proposal,0,0,0,1
+Application Rac,1,1,0,1
+Application Scorecard,1,1,0,0
+BBS,0,1,0,0
+Business Interest Parties,1,1,1,0
+Proposal,2,1,2,1
+Settings,2,0,0,0
+Setting Docgen Template,1,1,0,0

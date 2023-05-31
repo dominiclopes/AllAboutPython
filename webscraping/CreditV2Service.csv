@@ -1,0 +1,53 @@
+Tag,get,post,put/patch,delete
+Credit Scoring Model Integration,1,1,0,0
+Rule Based Credit Scoring,3,3,1,0
+Credit Scoring,2,0,0,0
+Credit Model Integration,1,0,0,0
+ID Score Card,2,1,0,0
+ID Exposure,1,2,1,0
+Credit Memo,9,3,7,5
+Loan Draft,0,0,1,1
+Recourse,0,0,0,1
+Loan Recourse Draft,0,0,0,1
+Member,1,0,0,0
+Metadata,2,1,0,1
+Borrower Summary,1,0,1,0
+Corporate Guarantor Summary,1,0,1,0
+Elo Rating,2,2,0,0
+Elo Training,3,3,0,0
+Exchange Rate,1,0,0,0
+Exposure,1,0,1,0
+Personal Guarantor,2,1,1,1
+Questionnaire,2,0,2,0
+Test Bucket,3,3,2,3
+Loan Test Bucket,1,1,1,1
+Product Test Bucket,1,1,0,1
+Credit Decision,1,1,0,0
+Underwriting Stage,1,0,2,0
+CTOS Pull Req,1,1,0,0
+BIP Pull Req,1,1,1,0
+Trade References,2,0,1,0
+Financial Statements,1,2,1,0
+Profit And Loss,1,2,1,0
+Balance Sheets Calculator,0,1,0,0
+Balance Sheets,1,1,1,0
+Screening,2,1,1,0
+ID Credit Limit,1,4,1,0
+ID V2 Credit Limit,0,1,4,0
+Ratio Analysis Calculator,0,1,0,0
+ID Financial Statements Ratio Analysis V2,0,1,1,0
+ID Financial Statements Ratio Analysis,1,1,1,0
+ID Credit Bureau,1,2,3,0
+ID RAC,1,1,1,0
+Catalog,1,1,0,0
+VU Existing Banking Arrangement,1,1,1,1
+VU Company Profile,1,1,1,1
+VU Company Profile Customer,1,1,1,1
+VU Company Profile Supplier,1,1,1,1
+VU Credit Bureau,1,1,1,0
+VU Company Profile Comment,1,1,1,0
+VU Financial Statements,1,2,1,0
+VU Profit And Loss,1,2,1,0
+VU Ratio Analysis,1,3,2,0
+VU Balance Sheets,1,2,1,0
+Pefindo,1,2,0,0

@@ -1,0 +1,116 @@
+Sr. No.,Tag,Method,Endpoint
+1,Restructure,get,/restructure/plan
+2,Restructure,post,/restructure/plan
+3,Restructure,delete,/restructure/plan/{id}
+4,Restructure,post,/restructure/history
+5,Restructure,get,/restructure/history
+6,Restructure,get,/loans/{id}/recovery_rate
+7,Restructure,post,/loans/{id}/recovery_rate
+8,Groups,get,/groups
+9,Groups,post,/groups
+10,Groups,get,/groups/{id}
+11,Groups,put,/groups/{id}
+12,Groups,get,/groups/{id}/grades
+13,Groups,post,/groups/{id}/grades
+14,Groups,put,/groups/{id}/grades/{grade_id}
+15,Groups,delete,/groups/{id}/grades/{gradeid}
+16,Groups,get,/groups/{id}/grade
+17,Products,get,/products
+18,Products,post,/products
+19,Products,get,/products/externally
+20,Products,get,/products/schemas/product_config
+21,Products,get,/products/{id}
+22,Products,put,/products/{id}
+23,Products,get,/products/{id}/externally
+24,Products,get,/products/{id}/purposes
+25,Products,post,/products/{id}/purposes
+26,Products,delete,/products/{id}/purposes/{purposeid}
+27,Products,get,/products/{id}/rejectionReasons
+28,Products,post,/products/{id}/rejectionReasons
+29,Products,delete,/products/{id}/rejectionReasons/{rejection_reason_id}
+30,Products,get,/products/{id}/required_docs
+31,Products,post,/products/{id}/required_docs
+32,Products,put,/products/{id}/required_docs/{required_doc_id}
+33,Products,delete,/products/{id}/required_docs/{required_doc_id}
+34,Products,put,/products/{product_id}/required_docs/{product_recipient_id}/attach_to_disbursal_email
+35,Products,get,/products/{product_id}/product_email_recipients
+36,Products,post,/products/{product_id}/product_email_recipients
+37,Products,delete,/products/{product_id}/product_email_recipients/{product_recipient_id}
+38,Products,get,/products/{id}/doc_template_refs
+39,Products,put,/products/{id}/doc_template_refs
+40,Products,get,/products/{id}/doc_template_refs/{template_ref_id}
+41,Products,post,/products/{id}/doc_template_refs/{template_ref_id}
+42,Products,delete,/products/{id}/doc_template_refs/{template_ref_id}
+43,Products,get,/products/{id}/logs
+44,Purposes,get,/purposes
+45,Purposes,post,/purposes
+46,Purposes,get,/purposes/{id}
+47,Purposes,put,/purposes/{id}
+48,Purposes,delete,/purposes/{id}
+49,Recourses,get,/recourses
+50,Recourses,post,/recourses
+51,Recourses,get,/recourses/{id}
+52,Recourses,put,/recourses/{id}
+53,Recourses,delete,/recourses/{id}
+54,Recourses,get,/recourses/{id}/loans
+55,Rejection Reasons,get,/rejectionReasons
+56,Rejection Reasons,post,/rejectionReasons
+57,Rejection Reasons,get,/rejectionReasons/{id}
+58,Rejection Reasons,put,/rejectionReasons/{id}
+59,Rejection Reasons,delete,/rejectionReasons/{id}
+60,Stages,get,/stages
+61,Stages,get,/stages/statuses
+62,Loans,get,/loans
+63,Loans,post,/loans
+64,Loans,get,/loans/{id}
+65,Loans,put,/loans/{id}
+66,Loans,get,/loans/members/{uuid}/is_first_loan
+67,Loans,get,/loans/{id}/recovery_rate
+68,Loans,post,/loans/{id}/recovery_rate
+69,Loans,put,/loans/{id}/guarantee_fee
+70,Loans,put,/loans/{id}/origination_fee
+71,Loans,post,/loans/{id}/guaranteed
+72,Loans,put,/loans/{id}/status
+73,Loans,put,/loans/{id}/status/disburse
+74,Loans,get,/loans/{loan_id}/disbursal_email
+75,Loans,put,/loans/{loan_id}/disbursal_email
+76,Loans,get,/loans/{id}/schedule
+77,Loans,put,/loans/{id}/schedule
+78,Loans,get,/loans/{id}/schedule/simulate
+79,Loans,get,/loans/{id}/recourses
+80,Loans,put,/loans/{id}/recourses
+81,Loans,get,/loans/{id}/sent_emails
+82,Loans,post,/loans/{loan_id}/sent_loan_email
+83,Loans,get,/loans/{loan_id}/sent_loan_email
+84,Calculators,get,/calculators/effective_interest_rate
+85,Invoices,get,/invoices
+86,Invoices,post,/invoices
+87,Invoices,get,/invoices/{id}
+88,Invoices,put,/invoices/{id}
+89,Invoices,get,/invoices/members
+90,Invoices,post,/invoices/create
+91,Invoices,get,/invoices/suppliers/buyer/{id}
+92,Invoices,get,/invoices/buyers/supplier/{id}
+93,SCF,get,/scf/buyers
+94,SCF,get,/scf/suppliers
+95,SCF,get,/scf/invoices
+96,SCF,post,/scf/invoices
+97,SCF,get,/scf/invoices/{id}
+98,SCF,put,/scf/invoices/{id}
+99,SCF,delete,/scf/invoices/{id}
+100,master,get,/master/enums/{name}
+101,master,get,/master/formulas/{name}/installments
+102,Loan Assignments,get,/loan_assignments/users/{username}
+103,Loan Assignments,post,/loan_assignments/{loan_id}
+104,Loan Assignments,put,/loan_assignments/{loan_id}
+105,Loan Assignments,get,/loan_assignments/{loan_id}
+106,Loan Assignments,get,/loan_assignments
+107,Loan ORR,post,/loan_orr/calculation/trigger/{country_code}
+108,Loan ORR,post,/loan_orr/{loan_id}/calculation
+109,FDC Integration,get,/fdc/inquiry/{loan_id}
+110,FDC Integration,get,/fdc/inquiry/borrower/{borrower_id}
+111,FDC Integration,get,/fdc/sik-historical-data/unique/dates
+112,FDC Integration,get,/fdc/sik-historical-data/{date}
+113,Change Requests,post,/change_request/{crType}/{loanId}
+114,Channels,get,/channels
+115,Channels,post,/channels

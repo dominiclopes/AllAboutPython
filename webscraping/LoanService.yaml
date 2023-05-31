@@ -1,0 +1,4964 @@
+openapi: 3.0.0
+info:
+  version: "2"
+  title: Loan
+x-serviceName: loan-service
+x-basePathExposed:
+  intern: /internal/api/ln/v2
+  extern: /api/ln/v2
+x-regions:
+  - sg
+  - my
+  - id
+  - zi
+paths:
+  /restructure/plan:
+    get:
+      description: Get all loan restructure plans.
+      tags:
+        - Restructure
+      responses:
+        200:
+          description: list of loan restructure plans.
+      x-roles-intern: []
+      parameters:
+        - $ref: '#/components/parameters/username'
+
+    post:
+      description: Create a loan restructure plan.
+      tags:
+        - Restructure
+      responses:
+        200:
+          description: newly created loan restructure plan.
+      x-roles-intern: []
+      parameters:
+        - $ref: '#/components/parameters/username'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: restructure plan
+              type: object
+              properties:
+                name:
+                  type: string
+        required: true
+
+  /restructure/plan/{id}:
+    delete:
+      description: delete a loan restructure plan by id.
+      tags:
+        - Restructure
+      responses:
+        204:
+          description: success
+      x-roles-intern: []
+      parameters:
+        - $ref: '#/components/parameters/username'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+
+  /restructure/history:
+    post:
+      description: create a loan restructure history record.
+      tags:
+        - Restructure
+      responses:
+        200:
+          description: newly created loan restructure plan.
+      x-roles-intern: []
+      parameters:
+        - $ref: '#/components/parameters/username'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: restructure plan
+              type: object
+        required: true
+    get:
+      description: query loan restructure history.
+      tags:
+        - Restructure
+      responses:
+        200:
+          description: list of resturcture records that match the query criteria.
+      x-roles-intern: []
+      parameters:
+        - name: original_loan_ids
+          in: query
+          schema:
+            type: array
+            items:
+              type: integer
+        - name: new_loan_id
+          in: query
+          schema:
+            type: integer
+
+  /groups:
+    get:
+      tags:
+        - Groups
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: grade_interest_type
+          in: query
+          schema:
+            type: string
+        - name: is_visible
+          in: query
+          schema:
+            type: boolean
+        - name: is_default
+          in: query
+          schema:
+            type: boolean
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getGroup"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postGroup"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/groups/{id}":
+    get:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getGroup"
+        "404":
+          description: Group id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postGroup"
+      responses:
+        "204":
+          description: Group Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/groups/{id}/grades":
+    get:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getGroupGrade"
+        "404":
+          description: Group id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/postGroupGrade"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/groups/{id}/grades/{grade_id}":
+    put:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: grade_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/postGroupGrade"
+      responses:
+        "204":
+          description: Group Grade updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/groups/{id}/grades/{gradeid}":
+    delete:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: gradeid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Group Grade deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/groups/{id}/grade":
+    get:
+      tags:
+        - Groups
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Success operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getGrade"
+        "404":
+          description: Loan grade does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /products:
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: group_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: code
+          in: query
+          schema:
+            type: string
+        - name: is_default
+          in: query
+          schema:
+            type: boolean
+        - name: cf_duration_minutes
+          in: query
+          schema:
+            type: number
+        - name: min_loan_amount
+          in: query
+          schema:
+            type: number
+        - name: max_loan_amount
+          in: query
+          schema:
+            type: number
+        - name: min_invest
+          in: query
+          schema:
+            type: number
+        - name: max_invest
+          in: query
+          schema:
+            type: number
+        - name: funding_max_investor_cap
+          in: query
+          schema:
+            type: number
+        - name: service_fee
+          in: query
+          schema:
+            type: number
+        - name: service_fee_scope
+          in: query
+          schema:
+            type: string
+        - name: service_fee_prorate
+          in: query
+          schema:
+            type: boolean
+        - name: interest_type
+          in: query
+          schema:
+            type: number
+        - name: invest_increment_multiple
+          in: query
+          schema:
+            type: number
+        - name: tenor_min
+          in: query
+          schema:
+            type: number
+        - name: tenor_max
+          in: query
+          schema:
+            type: number
+        - name: tenor_type
+          in: query
+          schema:
+            type: number
+        - name: funding_type
+          in: query
+          schema:
+            type: string
+        - name: scoresheet_code
+          in: query
+          schema:
+            type: string
+        - name: show_underwriting_repayment
+          in: query
+          schema:
+            type: boolean
+        - name: show_underwriting_credit_limit
+          in: query
+          schema:
+            type: boolean
+        - name: dpd_default
+          in: query
+          schema:
+            type: number
+        - name: dpd_default_restructured
+          in: query
+          schema:
+            type: number
+        - name: aa_max_invest
+          in: query
+          schema:
+            type: number
+        - name: aa_min_invest
+          in: query
+          schema:
+            type: number
+        - name: aa_increment_invest
+          in: query
+          schema:
+            type: number
+        - name: guaranteed_return
+          in: query
+          schema:
+            type: boolean
+        - name: config_path_value
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProduct"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postProduct"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /products/externally:
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: group_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: code
+          in: query
+          schema:
+            type: string
+        - name: is_default
+          in: query
+          schema:
+            type: boolean
+        - name: cf_duration_minutes
+          in: query
+          schema:
+            type: number
+        - name: min_loan_amount
+          in: query
+          schema:
+            type: number
+        - name: max_loan_amount
+          in: query
+          schema:
+            type: number
+        - name: min_invest
+          in: query
+          schema:
+            type: number
+        - name: max_invest
+          in: query
+          schema:
+            type: number
+        - name: funding_max_investor_cap
+          in: query
+          schema:
+            type: number
+        - name: service_fee
+          in: query
+          schema:
+            type: number
+        - name: service_fee_scope
+          in: query
+          schema:
+            type: string
+        - name: service_fee_prorate
+          in: query
+          schema:
+            type: boolean
+        - name: interest_type
+          in: query
+          schema:
+            type: number
+        - name: invest_increment_multiple
+          in: query
+          schema:
+            type: number
+        - name: tenor_min
+          in: query
+          schema:
+            type: number
+        - name: tenor_max
+          in: query
+          schema:
+            type: number
+        - name: tenor_type
+          in: query
+          schema:
+            type: number
+        - name: funding_type
+          in: query
+          schema:
+            type: string
+        - name: scoresheet_code
+          in: query
+          schema:
+            type: string
+        - name: show_underwriting_repayment
+          in: query
+          schema:
+            type: boolean
+        - name: show_underwriting_credit_limit
+          in: query
+          schema:
+            type: boolean
+        - name: dpd_default
+          in: query
+          schema:
+            type: number
+        - name: dpd_default_restructured
+          in: query
+          schema:
+            type: number
+        - name: aa_max_invest
+          in: query
+          schema:
+            type: number
+        - name: aa_min_invest
+          in: query
+          schema:
+            type: number
+        - name: aa_increment_invest
+          in: query
+          schema:
+            type: number
+        - name: guaranteed_return
+          in: query
+          schema:
+            type: boolean
+        - $ref: "#/components/parameters/x_header_language"
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProduct"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-roles-extern:
+        - collector
+        - partner
+        - investor
+        - borrower
+  /products/schemas/product_config:
+    get:
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Returns product advanced config schema, with client side cache headers set
+          content:
+            application/json:
+              schema:
+                type: object
+      x-roles-intern: []
+  "/products/{id}":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getProduct"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postProduct"
+      responses:
+        "204":
+          description: Product Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/products/{id}/externally":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/x_header_language"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getProduct"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-roles-extern:
+        - collector
+        - partner
+        - investor
+        - borrower
+  "/products/{id}/purposes":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProductPurpose"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postProductPurpose"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/products/{id}/purposes/{purposeid}":
+    delete:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: purposeid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Product Purpose deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/products/{id}/rejectionReasons":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProductRejectionReason"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postProductRejectionReason"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{id}/rejectionReasons/{rejection_reason_id}":
+    delete:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: rejection_reason_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Product Rejection Reason deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{id}/required_docs":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProductRequirementDocs"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/postProductRequirementDocs"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/products/{id}/required_docs/{required_doc_id}":
+    put:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: required_doc_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: "#/components/requestBodies/postProductRequirementDocs"
+      responses:
+        "204":
+          description: data Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    delete:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: required_doc_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: data Deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/products/{product_id}/required_docs/{product_recipient_id}/attach_to_disbursal_email":
+    put:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: product_recipient_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/putProductRequiredDocsAttachmentDisbursal"
+        required: true
+      responses:
+        "204":
+          description: data Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{product_id}/product_email_recipients":
+    get:
+      tags:
+        - Products
+      parameters:
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProductEmailRecipients"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postProductEmailRecipients"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{product_id}/product_email_recipients/{product_recipient_id}":
+    delete:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: product_recipient_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: data Deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{id}/doc_template_refs":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getDocTemplateRef"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    put:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postDocTemplateRef"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getDocTemplateRef"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{id}/doc_template_refs/{template_ref_id}":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: template_ref_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getDocTemplateRef"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    post:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: template_ref_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postDocTemplateRef"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getDocTemplateRef"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    delete:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: template_ref_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Successful operation
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/products/{id}/logs":
+    get:
+      tags:
+        - Products
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getProductLogs"
+        "404":
+          description: Product id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  /purposes:
+    get:
+      tags:
+        - Purposes
+      parameters:
+        - name: x-header-language
+          description: two-letter ISO 639-1 language code
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: name_eng
+          in: query
+          schema:
+            type: string
+        - name: name_ind
+          in: query
+          schema:
+            type: string
+        - name: name_may
+          in: query
+          schema:
+            type: string
+        - name: name_zh
+          in: query
+          schema:
+            type: string
+        - name: isDefault
+          in: query
+          schema:
+            type: boolean
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getPurpose"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Purposes
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postPurpose"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/purposes/{id}":
+    get:
+      tags:
+        - Purposes
+      parameters:
+        - name: x-header-language
+          description: two-letter ISO 639-1 language code
+          in: header
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getPurpose"
+        "404":
+          description: Group id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Purposes
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/postPurpose"
+      responses:
+        "204":
+          description: Purposes Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    delete:
+      tags:
+        - Purposes
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: Purposes Deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /recourses:
+    get:
+      tags:
+        - Recourses
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: recourse_type
+          in: query
+          schema:
+            type: string
+        - name: identifier
+          in: query
+          schema:
+            type: string
+        - name: value
+          in: query
+          schema:
+            type: number
+        - name: currency
+          in: query
+          schema:
+            type: string
+        - name: contact_address
+          in: query
+          schema:
+            type: string
+        - name: contact_phone
+          in: query
+          schema:
+            type: string
+        - name: contact_email
+          in: query
+          schema:
+            type: string
+            format: email
+        - name: expiry_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: revolving_type
+          in: query
+          schema:
+            type: string
+        - name: notes
+          in: query
+          schema:
+            type: string
+        - name: promo_code
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getRecourse"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Recourses
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postRecourse"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/recourses/{id}":
+    get:
+      tags:
+        - Recourses
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getRecourse"
+        "404":
+          description: Recourse id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Recourses
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postRecourse"
+      responses:
+        "204":
+          description: Recourses Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    delete:
+      tags:
+        - Recourses
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      responses:
+        "204":
+          description: Recourse deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/recourses/{id}/loans":
+    get:
+      tags:
+        - Recourses
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+      x-roles-intern: []
+  /rejectionReasons:
+    get:
+      tags:
+        - Rejection Reasons
+      parameters:
+        - name: x-header-language
+          description: two-letter ISO 639-1 language code
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: name_eng
+          in: query
+          schema:
+            type: string
+        - name: name_ind
+          in: query
+          schema:
+            type: string
+        - name: name_may
+          in: query
+          schema:
+            type: string
+        - name: name_zh
+          in: query
+          schema:
+            type: string
+        - name: description
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getRejectionReason"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    post:
+      tags:
+        - Rejection Reasons
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postRejectionReason"
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/rejectionReasons/{id}":
+    get:
+      tags:
+        - Rejection Reasons
+      parameters:
+        - name: x-header-language
+          description: two-letter ISO 639-1 language code
+          in: header
+          required: false
+          schema:
+            type: string
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getRejectionReason"
+        "404":
+          description: Rejection Reason id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    put:
+      tags:
+        - Rejection Reasons
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        $ref: "#/components/requestBodies/postRejectionReason"
+      responses:
+        "204":
+          description: Rejection Reason Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    delete:
+      tags:
+        - Rejection Reasons
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      responses:
+        "204":
+          description: Rejection Reason deleted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  /stages:
+    get:
+      tags:
+        - Stages
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        "404":
+          description: Stages does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /stages/statuses:
+    get:
+      tags:
+        - Stages
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+        "404":
+          description: Stages statuses does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /loans:
+    get:
+      tags:
+        - Loans
+      parameters:
+        - name: uuid
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: loan_code
+          in: query
+          schema:
+            type: string
+        - name: borrower_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: partner_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: group_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: product_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: purpose_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: stage_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: status_id
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: status
+          in: query
+          schema:
+            type: string
+        - name: tenor_type
+          in: query
+          schema:
+            type: number
+        - name: installment_type
+          in: query
+          schema:
+            type: number
+        - name: interest_type
+          in: query
+          schema:
+            type: number
+        - name: grade
+          in: query
+          schema:
+            type: string
+        - name: scoresheet_id
+          in: query
+          schema:
+            type: string
+        - name: rejection_reason_id
+          in: query
+          schema:
+            type: number
+        - name: service_fee_prorate
+          in: query
+          schema:
+            type: boolean
+        - name: service_fee_scope
+          in: query
+          schema:
+            type: string
+        - name: assignee
+          in: query
+          schema:
+            type: string
+        - name: excluded_fields
+          in: query
+          example: groups,products,stages,statuses,members,purposes
+          schema:
+            type: string
+        - name: loan_ids
+          in: query
+          example: 1,2,3,4,5,6
+          schema:
+            type: string
+        - name: original_loan_ids
+          in: query
+          example: 1,2,3,4,5,6
+          schema:
+            type: string
+        - name: inactive
+          in: query
+          schema:
+            type: boolean
+        - name: product_attributes
+          description: Comma-separated list of product attributes to restrict to. Default attributes will always be included.
+          in: query
+          schema:
+            type: string
+        - name: group_attributes
+          description: Comma-separated list of group attributes to restrict to. Only comes into effect if `groups` is not excluded with excluded_fields.
+          in: query
+          schema:
+            type: string
+        - name: purpose_attributes
+          description: Comma-separated list of purpose attributes to restrict to. Only comes into effect if `purposes` is not excluded with excluded_fields.
+          in: query
+          schema:
+            type: string
+        - name: rejection_reason_attributes
+          description: Comma-separated list of rejection reason attributes to restrict to. Only comes into effect if `rejectionReasons` is not excluded with excluded_fields.
+          in: query
+          schema:
+            type: string
+        - name: stage_attributes
+          description: Comma-separated list of stage attributes to restrict to. Only comes into effect if `stages` is not excluded with excluded_fields.
+          in: query
+          schema:
+            type: string
+        - name: status_attributes
+          description: Comma-separated list of status attributes to restrict to. Only comes into effect if `statuses` is not excluded with excluded_fields.
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoan"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postLoan"
+        required: true
+      responses:
+        "201":
+          $ref: "#/components/responses/dataCreated"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/loans/{id}":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getLoan"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/putLoan"
+        required: true
+      responses:
+        "204":
+          description: Loan Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /loans/members/{uuid}/is_first_loan:
+    get:
+      tags:
+        - Loans
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          description: Member's UUID
+          schema:
+            type: string
+        - name: product_id
+          in: query
+          description: Product Id
+          schema:
+            type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: boolean
+          description: Successful operation
+      x-skip: true
+  /loans/{id}/recovery_rate:
+    get:
+      tags:
+        - Loans
+        - Restructure
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: list of loan recovery rates ordered by created time in descending.
+      x-roles-intern: []
+    post:
+      tags:
+        - Loans
+        - Restructure
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: number
+        required: true
+      responses:
+        200:
+          description: created record.
+      x-roles-intern: []
+  "/loans/{id}/guarantee_fee":
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                guarantee_fee:
+                  type: number
+        required: true
+      responses:
+        204:
+          description: 'return success response'
+  "/loans/{id}/origination_fee":
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                origination_fee:
+                  type: number
+        required: true
+      responses:
+        204:
+          description: 'return success response'
+  "/loans/{id}/guaranteed":
+    post:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postLoanGuaranteed"
+        required: true
+      responses:
+        "204":
+          description: Successful Operation
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loans/{id}/status":
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/putLoanStatus"
+        required: true
+      responses:
+        "204":
+          description: Loan Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/loans/{id}/status/disburse":
+    put:
+      description: "exclusively used by finance service to disburse ID loan"
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+        - name: gateway
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: token
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Loan Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+  "/loans/{loan_id}/disbursal_email":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Disbursal instruction email data template
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/disbursalEmailData"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailTitle:
+                  type: string
+                emailContent:
+                  type: string
+                enableAutoSendDisbursalEmail:
+                  type: boolean
+        required: true
+      responses:
+        "200":
+          description: Disbursal instruction email data template
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/disbursalEmailData"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loans/{id}/schedule":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoanSchedule"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/putLoanSchedule"
+        required: true
+      responses:
+        "204":
+          description: Loan Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/loans/{id}/schedule/simulate":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - name: disbursal_date
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getSimulatedLoanSchedule"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loans/{id}/recourses":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoanRecourse"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/putLoanRecourse"
+        required: true
+      responses:
+        "204":
+          description: Loan Updated
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/loans/{id}/sent_emails":
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/id"
+        - $ref: "#/components/parameters/attributes"
+        - name: email_type
+          description: discharge_notif_email, disbursal_email, drawdown_approval_email, notif_of_disbursal_email, releasing_car_geran_email
+          in: query
+          schema:
+            type: string
+        - $ref: "#/components/parameters/orderBy"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/size"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getSentLoanEmail"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loans/{loan_id}/sent_loan_email":
+    post:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/loan_id"
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postSentLoanEmail"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getSentLoanEmail"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    get:
+      tags:
+        - Loans
+      parameters:
+        - $ref: "#/components/parameters/loan_id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/getSentLoanEmail"
+        "404":
+          description: Loan id does not exist
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  /calculators/effective_interest_rate:
+    get:
+      tags:
+        - Calculators
+      parameters:
+        - name: loan_amount
+          in: query
+          schema:
+            type: number
+        - name: tenor_length_in_month
+          in: query
+          schema:
+            type: number
+        - name: simple_interest_rate
+          in: query
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: number
+                    example: 0.91
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/invoices":
+    get:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/username"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    post:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postInvoice"
+      responses:
+        "200":
+          description: Invoice created
+          content:
+            "*/*":
+              schema:
+                type: object
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/invoices/{id}":
+    get:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+    put:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postInvoice"
+      responses:
+        "200":
+          description: Successfully updated invoice
+          content:
+            "*/*":
+              schema:
+                type: object
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  /invoices/members:
+    get:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+      x-skip: true
+  "/invoices/create":
+    post:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postInvoice"
+      responses:
+        "200":
+          description: Invoice created
+          content:
+            "*/*":
+              schema:
+                type: object
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/invoices/suppliers/buyer/{id}":
+    get:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+      x-skip: true
+  "/invoices/buyers/supplier/{id}":
+    get:
+      tags:
+        - Invoices
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+      x-skip: true
+  "/scf/buyers":
+    get:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+      x-skip: true
+  "/scf/suppliers":
+    get:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+      x-skip: true
+  "/scf/invoices":
+    get:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+    post:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postSCFInvoice"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+  "/scf/invoices/{id}":
+    get:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+    put:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postSCFInvoice"
+      responses:
+        "200":
+          description: Successful updated scf invoices
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+    delete:
+      tags:
+        - SCF
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: Successfully deleted invoice
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+  "/master/enums/{name}":
+    get:
+      tags:
+        - master
+      parameters:
+        - $ref: "#/components/parameters/countryCode"
+        - name: group
+          in: query
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+  "/master/formulas/{name}/installments":
+    get:
+      tags:
+        - master
+      parameters:
+        - name: loanAmount
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: interestType
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: interestRate
+          in: query
+          schema:
+            type: number
+            format: float
+        - name: tenorType
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: tenorLength
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: installmentType
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+      x-roles-intern: []
+  "/loan_assignments/users/{username}":
+    get:
+      tags:
+        - Loan Assignments
+      parameters:
+        - $ref: "#/components/parameters/username"
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoanAssignment"
+                  total:
+                    type: integer
+                    format: int64
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loan_assignments/{loan_id}":
+    post:
+      tags:
+        - Loan Assignments
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postLoanAssignment"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    put:
+      tags:
+        - Loan Assignments
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: category
+          in: query
+          required: false
+          example: "Sales"
+          schema:
+            type: string
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/putLoanAssignment"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+    get:
+      tags:
+        - Loan Assignments
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/username"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoanAssignment"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loan_assignments":
+    get:
+      tags:
+        - Loan Assignments
+      parameters:
+        - name: loan_ids
+          in: query
+          required: true
+          example: 1,2,3,4,5,6
+          schema:
+            type: string
+        - $ref: "#/components/parameters/username"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getLoanAssignment"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/loan_orr/calculation/trigger/{country_code}":
+    post:
+      tags:
+        - Loan ORR
+      parameters:
+        - name: country_code
+          in: path
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/postLoanOrrTriggerScheduler"
+        required: true
+      responses:
+        "204":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/loan_orr/{loan_id}/calculation":
+    post:
+      tags:
+        - Loan ORR
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: "#/components/parameters/username"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: "#/components/schemas/postLoanOrrCalculation"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/fdc/inquiry/{loan_id}":
+    get:
+      tags:
+        - FDC Integration
+      parameters:
+        - name: loan_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getFdcInquiry"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/fdc/inquiry/borrower/{borrower_id}":
+    get:
+      tags:
+        - FDC Integration
+      parameters:
+        - name: borrower_id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: cached
+          description: To flag pull newest SIK or get cached
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/getFdcInquiry"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+  "/fdc/sik-historical-data/unique/dates":
+    get:
+      tags:
+        - FDC Integration
+      parameters:
+        - name: loanId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: borrowerId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: Successfully get unique dates
+      x-roles-intern: []
+  "/fdc/sik-historical-data/{date}":
+    get:
+      tags:
+        - FDC Integration
+      parameters:
+        - name: date
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: loanId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: borrowerId
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: page
+          in: query
+          description: Page number (at least 1)
+          schema:
+            type: integer
+            minimum: 1
+        - name: size
+          in: query
+          description: Page size (between 10 and 50)
+          schema:
+            type: integer
+            minimum: 10
+            maximum: 50
+      responses:
+        "200":
+          description: Successfully get historical data
+      x-roles-intern: []
+  "/change_request/{crType}/{loanId}":
+    post:
+      tags:
+        - Change Requests
+      parameters:
+        - name: crType
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: loanId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/changeRequests"
+        required: true
+      responses:
+        "202":
+          description: Accepted
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+  "/channels":
+    get:
+      tags:
+        - Channels
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            "*/*":
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/channel"
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      parameters:
+        - name: name
+          in: query
+          schema:
+            type: string
+        - name: code
+          in: query
+          schema:
+            type: string
+        - name: is_default
+          in: query
+          schema:
+            type: boolean
+        - $ref: "#/components/parameters/countryCode"
+        - $ref: "#/components/parameters/search"
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/size"
+        - $ref: "#/components/parameters/orderBy"
+    post:
+      tags:
+        - Channels
+      parameters:
+        - $ref: "#/components/parameters/username"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/channel"
+        required: true
+      responses:
+        "201":
+          description: Accepted, no content
+        "422":
+          $ref: "#/components/responses/unprocessableEntity"
+        "500":
+          $ref: "#/components/responses/internalServerError"
+        "503":
+          $ref: "#/components/responses/serviceUnavailable"
+      x-roles-intern: []
+      x-skip: true
+servers:
+  - url: /v2
+components:
+  parameters:
+    username:
+      name: username
+      in: header
+      required: true
+      description: Username of staff
+      schema:
+        type: string
+    x_header_language:
+      name: x-header-language
+      in: header
+      required: false
+      description: ISO-639-1 language code used to indicate product name language
+      schema:
+        type: string
+        enum:
+          - id
+          - en
+          - ms
+          - vi
+          - th
+    member_id:
+      name: member_id
+      in: header
+      required: true
+      description: member id
+      schema:
+        type: integer
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+    loan_id:
+      name: loan_id
+      in: path
+      required: true
+      schema:
+        type: string
+    countryCode:
+      name: country_code
+      in: query
+      description: 2 letter country code of staff user
+      schema:
+        type: string
+        enum:
+          - ID
+          - MY
+          - SG
+          - VN
+          - ZI
+    requiredCountryCode:
+      name: country_code
+      in: query
+      required: true
+      description: 2 letter country code of staff user
+      schema:
+        type: string
+        enum:
+          - ID
+          - MY
+          - SG
+          - VN
+          - ZI
+    attributes:
+      name: attributes
+      in: query
+      description: Attributes selector
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+    search:
+      name: search
+      in: query
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number (at least 1)
+      schema:
+        type: integer
+        minimum: 1
+    size:
+      name: size
+      in: query
+      description: Page size (between 10 and 50)
+      schema:
+        type: integer
+        minimum: 10
+        maximum: 50
+    orderBy:
+      name: order_by
+      in: query
+      description: Order entities by column (column,ASC/DESC)
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+        pattern: ^[a-z_]+,(ASC|DESC)$
+  responses:
+    dataCreated:
+      description: Data Created
+      content:
+        "*/*":
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 1
+    noContent:
+      description: Successful operation
+    internalServerError:
+      description: An unexpected error has occurred
+    unprocessableEntity:
+      description: Request cannot be validated
+    serviceUnavailable:
+      description: Server timed out
+  requestBodies:
+    postPurpose:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postPurpose"
+      required: true
+    postGroup:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postGroup"
+      required: true
+    postGroupGrade:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postGroupGrade"
+      required: true
+    postProduct:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postProduct"
+      required: true
+    postProductRequirementDocs:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postProductRequirementDocs"
+      required: true
+    postRecourse:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postRecourse"
+      required: true
+    postRejectionReason:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/postRejectionReason"
+      required: true
+  schemas:
+    getGroup:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+          example: Term Loan
+        grade_interest_type:
+          type: string
+          example: simple
+        sort:
+          type: integer
+          format: int32
+          example: 1
+        criteria_description:
+          type: string
+          example: desc
+        is_visible:
+          type: boolean
+        is_default:
+          type: boolean
+        country_code:
+          type: string
+          example: SG
+    postGroup:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Term Loan
+        grade_interest_type:
+          type: string
+          example: simple
+        sort:
+          type: integer
+          format: int32
+          example: 1
+        criteria_description:
+          type: string
+          example: desc
+        is_visible:
+          type: boolean
+        is_default:
+          type: boolean
+        country_code:
+          type: string
+          example: SG
+    getGroupGrade:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        group_id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+        interest_min:
+          type: number
+        interest_max:
+          type: number
+        eir_min:
+          type: number
+        eir_max:
+          type: number
+    postGroupGrade:
+      type: object
+      properties:
+        group_id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        interest_min:
+          type: number
+        interest_max:
+          type: number
+        eir_min:
+          type: number
+        eir_max:
+          type: number
+    getGrade:
+      type: object
+      properties:
+        data:
+          type: string
+    getProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        group_id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+        code:
+          type: string
+        is_default:
+          type: boolean
+        cf_duration_minutes:
+          type: number
+        min_loan_amount:
+          type: number
+        max_loan_amount:
+          type: number
+        min_invest:
+          type: number
+        max_invest:
+          type: number
+        funding_max_investor_cap:
+          type: number
+        service_fee:
+          type: number
+        service_fee_scope:
+          type: string
+        service_fee_prorate:
+          type: boolean
+        interest_type:
+          type: number
+        invest_increment_multiple:
+          type: number
+        tenor_min:
+          type: number
+        tenor_max:
+          type: number
+        tenor_type:
+          type: number
+        funding_type:
+          type: string
+        scoresheet_code:
+          type: string
+        show_underwriting_repayment:
+          type: boolean
+        show_underwriting_credit_limit:
+          type: boolean
+        dpd_default:
+          type: number
+        dpd_default_restructured:
+          type: number
+        aa_max_invest:
+          type: number
+        aa_min_invest:
+          type: number
+        aa_increment_invest:
+          type: number
+        country_code:
+          type: string
+          example: SG
+        late_fee:
+          type: number
+        late_interest_fee:
+          type: number
+        late_interest_period:
+          type: number
+        incurr_grace_period_days:
+          type: number
+        early_repayment_fee_inv:
+          type: number
+        early_repayment_fee_com:
+          type: number
+        enable_auto_send_disbursal_email:
+          type: boolean
+        guaranteed_return:
+          type: boolean
+        partnership_orr:
+          type: string
+        default_purpose_id:
+          type: string
+        config:
+          $ref: "#/components/schemas/productConfig"
+    postProduct:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        group_id:
+          type: integer
+          format: int64
+          example: 1
+        name:
+          type: string
+        code:
+          type: string
+        is_default:
+          type: boolean
+        cf_duration_minutes:
+          type: number
+        min_loan_amount:
+          type: number
+        max_loan_amount:
+          type: number
+        min_invest:
+          type: number
+        max_invest:
+          type: number
+        funding_max_investor_cap:
+          type: number
+        service_fee:
+          type: number
+        service_fee_scope:
+          type: string
+        service_fee_prorate:
+          type: boolean
+        interest_type:
+          type: number
+        invest_increment_multiple:
+          type: number
+        tenor_min:
+          type: number
+        tenor_max:
+          type: number
+        tenor_type:
+          type: number
+        funding_type:
+          type: string
+        scoresheet_code:
+          type: string
+        show_underwriting_repayment:
+          type: boolean
+        show_underwriting_credit_limit:
+          type: boolean
+        dpd_default:
+          type: number
+        dpd_default_restructured:
+          type: number
+        aa_max_invest:
+          type: number
+        aa_min_invest:
+          type: number
+        aa_increment_invest:
+          type: number
+        country_code:
+          type: string
+          example: SG
+        late_fee:
+          type: number
+        late_interest_fee:
+          type: number
+        late_interest_period:
+          type: number
+        incurr_grace_period_days:
+          type: number
+        early_repayment_fee_inv:
+          type: number
+        early_repayment_fee_com:
+          type: number
+        enable_auto_send_disbursal_email:
+          type: boolean
+        guaranteed_return:
+          type: boolean
+        default_purpose_id:
+          type: string
+        config:
+          $ref: "#/components/schemas/productConfig"
+    productConfig:
+      type: object
+      properties:
+        disbursal:
+          type: object
+          properties:
+            is_auto_pairing_enabled:
+              type: boolean
+    getProductPurpose:
+      type: object
+      properties:
+        product_id:
+          type: integer
+          format: int64
+        purpose_id:
+          type: integer
+          format: int64
+        is_default:
+          type: boolean
+        sort:
+          type: integer
+          format: int32
+        purpose:
+          $ref: "#/components/schemas/getPurpose"
+    postProductPurpose:
+      type: object
+      properties:
+        purpose_id:
+          type: integer
+          format: int64
+        is_default:
+          type: boolean
+        sort:
+          type: integer
+          format: int32
+    getProductRejectionReason:
+      type: object
+      properties:
+        product_id:
+          type: integer
+          format: int64
+        rejection_reason_id:
+          type: integer
+          format: int64
+        is_default:
+          type: boolean
+        sort:
+          type: integer
+          format: int32
+        rejection_reason:
+          $ref: "#/components/schemas/getRejectionReason"
+    postProductRejectionReason:
+      type: object
+      properties:
+        rejection_reason_id:
+          type: integer
+          format: int64
+        is_default:
+          type: boolean
+        sort:
+          type: integer
+          format: int32
+    getPurpose:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name_eng:
+          type: string
+        name_ind:
+          type: string
+        name_may:
+          type: string
+        name_zh:
+          type: string
+        is_default:
+          type: boolean
+        country_code:
+          type: string
+          example: SG
+    postPurpose:
+      type: object
+      properties:
+        name_eng:
+          type: string
+        name_ind:
+          type: string
+        name_may:
+          type: string
+        name_zh:
+          type: string
+        is_default:
+          type: boolean
+        country_code:
+          type: string
+          example: SG
+    getRecourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        recourse_type:
+          type: string
+        name:
+          type: string
+        identifier:
+          type: string
+        value:
+          type: number
+        currency:
+          type: string
+        contact_address:
+          type: string
+        contact_email:
+          type: string
+        contact_phone:
+          type: string
+        expiry_date:
+          type: string
+          format: date
+        revolving_type:
+          type: string
+        notes:
+          type: string
+        country_code:
+          type: string
+        nationality:
+          type: string
+    postRecourse:
+      type: object
+      properties:
+        recourse_type:
+          type: string
+        name:
+          type: string
+        identifier:
+          type: string
+        value:
+          type: number
+        currency:
+          type: string
+        contact_address:
+          type: string
+        contact_email:
+          type: string
+        contact_phone:
+          type: string
+        expiry_date:
+          type: string
+          format: date
+        revolving_type:
+          type: string
+        notes:
+          type: string
+        country_code:
+          type: string
+        nationality:
+          type: string
+    getRejectionReason:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        name_eng:
+          type: string
+        name_ind:
+          type: string
+        name_may:
+          type: string
+        name_zh:
+          type: string
+        description:
+          type: string
+        country_code:
+          type: string
+          example: SG
+    postRejectionReason:
+      type: object
+      properties:
+        name_eng:
+          type: string
+        name_ind:
+          type: string
+        name_may:
+          type: string
+        name_zh:
+          type: string
+        description:
+          type: string
+        country_code:
+          type: string
+          example: SG
+    postInvoice:
+      type: object
+      properties:
+        serial_number:
+          type: string
+        description:
+          type: string
+        billing_date:
+          type: string
+          format: date
+        due_by_billing_date:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: float
+        factor:
+          type: integer
+          format: int64
+        discounted_amount:
+          type: number
+          format: float
+        interest_projected:
+          type: number
+          format: float
+        payment_offset_request:
+          type: number
+          format: float
+        supplier_id:
+          type: integer
+          format: int64
+        buyer_id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        loan_code:
+          type: string
+        recourse_id:
+          type: integer
+          format: int64
+        delivery_fee:
+          type: number
+          format: float
+        admin_fee:
+          type: number
+          format: float
+        discounting_fee:
+          type: number
+          format: float
+        facility_fee:
+          type: number
+          format: float
+        sales_discount:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        received_date:
+          type: string
+          format: date
+        due_by_received_date:
+          type: string
+          format: date
+        discount:
+          type: number
+          format: float
+    putInvoice:
+      type: object
+      properties:
+        serial_number:
+          type: string
+        description:
+          type: string
+        poNumber:
+          type: number
+        doNumber:
+          type: number
+        billing_date:
+          type: string
+          format: date
+        dueByBillingDate:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: float
+        factor:
+          type: integer
+          format: int64
+        discounted_amount:
+          type: number
+          format: float
+        interest_projected:
+          type: number
+          format: float
+        payment_offset_request:
+          type: number
+          format: float
+        supplier_id:
+          type: integer
+          format: int64
+        buyer_id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        loan_code:
+          type: string
+        recourse_id:
+          type: integer
+          format: int64
+        delivery_fee:
+          type: number
+          format: float
+        admin_fee:
+          type: number
+          format: float
+        discounting_fee:
+          type: number
+          format: float
+        facility_fee:
+          type: number
+          format: float
+        sales_discount:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        received_date:
+          type: string
+          format: date
+        due_by_received_date:
+          type: string
+          format: date
+        discount:
+          type: number
+          format: float
+    postSCFInvoice:
+      type: object
+      properties:
+        serial_number:
+          type: string
+        description:
+          type: string
+        poNumber:
+          type: number
+        doNumber:
+          type: number
+        billing_date:
+          type: string
+          format: date
+        dueByBillingDate:
+          type: string
+          format: date
+        total_amount:
+          type: number
+          format: float
+        factor:
+          type: integer
+          format: int64
+        discounted_amount:
+          type: number
+          format: float
+        interest_projected:
+          type: number
+          format: float
+        payment_offset_request:
+          type: number
+          format: float
+        supplier_id:
+          type: integer
+          format: int64
+        buyer_id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        loan_code:
+          type: string
+        recourse_id:
+          type: integer
+          format: int64
+        delivery_fee:
+          type: number
+          format: float
+        admin_fee:
+          type: number
+          format: float
+        disburseAmount:
+          type: number
+          format: float
+        x_loan_Code:
+          type: string
+        invoice_type:
+          type: string
+        discounting_fee:
+          type: number
+          format: float
+        facility_fee:
+          type: number
+          format: float
+        sales_discount:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        received_date:
+          type: string
+          format: date
+        due_by_received_date:
+          type: string
+          format: date
+        discount:
+          type: number
+          format: float
+    getLoan:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        uuid:
+          type: string
+          format: uuid
+        loan_code:
+          type: string
+        borrower_id:
+          type: integer
+          format: int64
+        partner_id:
+          type: integer
+          format: int64
+        group_id:
+          type: integer
+          format: int64
+        product_id:
+          type: integer
+          format: int64
+        purpose_id:
+          type: integer
+          format: int64
+        stage_id:
+          type: integer
+          format: int64
+        status_id:
+          type: integer
+          format: int64
+        factsheet_summary:
+          type: string
+        status:
+          type: integer
+          format: int64
+        applied_amount:
+          type: number
+        applied_tenor:
+          type: number
+        amount:
+          type: number
+        tenor_type:
+          type: number
+        tenor:
+          type: number
+        installment_type:
+          type: number
+        interest_rate:
+          type: number
+        interest_rate_effective:
+          type: number
+        interest_type:
+          type: number
+        grade:
+          type: string
+        scoresheet_id:
+          type: string
+        external_notes:
+          type: string
+        rejection_reason_id:
+          type: number
+        rejection_notes_detail:
+          type: string
+        country_code:
+          type: string
+        service_fee:
+          type: number
+        service_fee_prorate:
+          type: boolean
+        service_fee_scope:
+          type: string
+        origination_fee:
+          type: number
+        guarantee_fee:
+          type: number
+        gst:
+          type: number
+        early_repayment_fee_inv:
+          type: number
+        early_repayment_fee_com:
+          type: number
+        grace_period:
+          type: number
+        late_fee:
+          type: number
+        late_interest_fee:
+          type: number
+        late_interest_period:
+          type: number
+        borrower_name:
+          type: string
+        company_name:
+          type: string
+        partnership_orr:
+          type: string
+        userName:
+          type: string
+        city:
+          type: string
+        updated_at:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date
+        orr:
+          type: string
+        orr_calculated_at:
+          type: string
+          format: date
+        group:
+          $ref: "#/components/schemas/getGroup"
+        product:
+          $ref: "#/components/schemas/getProduct"
+        purpose:
+          $ref: "#/components/schemas/getPurpose"
+        rejectionReason:
+          $ref: "#/components/schemas/getRejectionReason"
+        stage:
+          $ref: "#/components/schemas/getStage"
+        statuse:
+          $ref: "#/components/schemas/getStatus"
+        wht_rate:
+          $ref: "#/components/schemas/whtRate"
+        updated_by:
+          type: string
+    getStage:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        code:
+          type: string
+        sort:
+          type: integer
+        country_code:
+          type: string
+    getStatus:
+      type: object
+      properties:
+        id:
+          type: number
+        stageId:
+          type: number
+        name:
+          type: string
+        sort:
+          type: integer
+        country_code:
+          type: string
+    whtRate:
+      type: object
+      properties:
+        late_fee:
+          type: number
+        origination_fee:
+          type: number
+        early_fee_company:
+          type: number
+    disbursalEmailData:
+      type: object
+      properties:
+        enableAutoSendDisbursalEmail:
+          type: boolean
+        recipientTo:
+          type: array
+          items:
+            $ref: "#/components/schemas/getProductEmailRecipients"
+        recipientCc:
+          type: array
+          items:
+            $ref: "#/components/schemas/getProductEmailRecipients"
+        recipientBcc:
+          type: array
+          items:
+            $ref: "#/components/schemas/getProductEmailRecipients"
+        emailTitle:
+          type: string
+        emailContent:
+          type: string
+        attachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/getProductRequirementDocs"
+    postLoan:
+      type: object
+      properties:
+        borrower_id:
+          type: integer
+          format: int64
+        partner_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        product_id:
+          type: integer
+          format: int64
+        purpose_id:
+          type: integer
+          format: int64
+        installment_type:
+          type: number
+        interest_rate:
+          type: number
+        interest_rate_effective:
+          type: number
+        interest_type:
+          type: number
+        scoresheet_id:
+          type: string
+        notes:
+          type: string
+        promo_code:
+          type: string
+        country_code:
+          type: string
+        tenor_type:
+          type: number
+        tenor_length:
+          type: number
+        ltv:
+          type: number
+        factsheet_summary:
+          type: string
+    putLoan:
+      type: object
+      properties:
+        borrower_id:
+          type: integer
+          format: int64
+        partner_id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+        product_id:
+          type: integer
+          format: int64
+        purpose_id:
+          type: integer
+          format: int64
+        installment_type:
+          type: number
+        interest_rate:
+          type: number
+        interest_rate_effective:
+          type: number
+        interest_type:
+          type: number
+        scoresheet_id:
+          type: string
+        notes:
+          type: string
+        promo_code:
+          type: string
+        country_code:
+          type: string
+        tenor_type:
+          type: number
+        tenor_length:
+          type: number
+        ltv:
+          type: number
+        origination_fee:
+          type: number
+        guarantee_fee:
+          type: number
+        gst:
+          type: number
+        rejection_reason_id:
+          type: number
+        rejection_notes_detail:
+          type: string
+        score_sheet_id:
+          type: string
+        late_fee:
+          type: number
+        late_interest_fee:
+          type: number
+        service_fee:
+          type: number
+        service_fee_scope:
+          type: string
+          enum:
+            - P
+            - I
+            - P+I
+        service_fee_prorate:
+          type: boolean
+        early_repayment_fee_com:
+          type: number
+        early_repayment_fee_inv:
+          type: number
+        grace_period:
+          type: number
+        factsheet_summary:
+          type: string
+    postLoanGuaranteed:
+      type: object
+      properties:
+        guarantorId:
+          type : number
+        interest_rate:
+          type : number
+        interest_rate_effective:
+          type : number
+        productId:
+          type : number
+    putLoanStatus:
+      type: object
+      properties:
+        status_id:
+          type: integer
+        loanSubStatus:
+          type: string
+        memberBankAccountId:
+          type: number
+        avoidFundTransfer:
+          type: boolean
+        disableStatusStepUp:
+          type: boolean
+    getLoanSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        installment_number:
+          type: integer
+        principal:
+          type: number
+        interest:
+          type: number
+        repayment_date:
+          type: string
+          format: date
+    putLoanSchedule:
+      type: object
+      properties:
+        installment_number:
+          type: integer
+        principal:
+          type: number
+        interest:
+          type: number
+    getSimulatedLoanSchedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        installment_number:
+          type: integer
+        principal:
+          type: number
+        interest:
+          type: number
+        repayment_date:
+          type: string
+          format: date
+        simulated_repayment_date:
+          type: string
+          format: date
+    getLoanRecourse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loan_id:
+          type: integer
+          format: int64
+        recourse_id:
+          type: integer
+          format: int64
+        is_confirmed:
+          type: boolean
+        recourse:
+          $ref: "#/components/schemas/getRecourse"
+        loan:
+          $ref: "#/components/schemas/getLoan"
+    putLoanRecourse:
+      type: object
+      properties:
+        recourse_id:
+          type: integer
+          format: int64
+        is_confirmed:
+          type: boolean
+    getProductRequirementDocs:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        product_id:
+          type: integer
+          format: int64
+        loan_stage_id:
+          type: integer
+          format: int64
+        is_mandatory:
+          type: boolean
+        attach_to_disbursal_email:
+          type: boolean
+        doc_type:
+          type: string
+        stage:
+          $ref: "#/components/schemas/getStage"
+    postProductRequirementDocs:
+      type: object
+      properties:
+        product_id:
+          type: integer
+          format: int64
+        loan_stage_id:
+          type: integer
+          format: int64
+        is_mandatory:
+          type: boolean
+        doc_type:
+          type: string
+    putProductRequiredDocsAttachmentDisbursal:
+      type: object
+      properties:
+        attach_to_disbursal_email:
+          type: boolean
+    getProductEmailRecipients:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        product_id:
+          type: integer
+          format: int64
+        recipient_type:
+          type: string
+        recipient_name:
+          type: string
+        recipient_email:
+          type: string
+        email_type:
+          type: string
+    postProductEmailRecipients:
+      type: object
+      properties:
+        product_id:
+          type: integer
+          format: int64
+        recipient_type:
+          type: string
+        recipient_name:
+          type: string
+        recipient_email:
+          type: string
+    getDocTemplateRef:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        template_uuid:
+          type: integer
+          format: int64
+        product_id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        name:
+          type: string
+        filename:
+          type: string
+    postDocTemplateRef:
+      type: object
+      properties:
+        template_uuid:
+          type: integer
+          format: int64
+        type:
+          type: string
+        name:
+          type: string
+        filename:
+          type: string
+    getSentLoanEmail:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loanId:
+          type: integer
+          format: int64
+        emailType:
+          type: string
+        emailTitle:
+          type: string
+        emailContent:
+          type: string
+        recipientTo:
+          type: string
+        recipientCc:
+          type: string
+        recipientBcc:
+          type: string
+        loanEmailAttachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/getEmailAttachment"
+    postSentLoanEmail:
+      type: object
+      properties:
+        emailTitle:
+          type: string
+        emailContent:
+          type: string
+        recipientTo:
+          type: string
+        recipientCc:
+          type: string
+        recipientBcc:
+          type: string
+        loanEmailAttachments:
+          type: array
+          items:
+            $ref: "#/components/schemas/getEmailAttachment"
+    getEmailAttachment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        document_id:
+          type: integer
+          format: int64
+    getProductLogs:
+      type: object
+      properties:
+        change_list:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date
+        created_by:
+          type: string
+        event_type:
+          type: string
+        from_value:
+          type: object
+        id:
+          type: integer
+          format: int64
+        product_id:
+          type: integer
+          format: int64
+        message:
+          type: string
+        to_value:
+          type: object
+    getLoanAssignment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        loanId:
+          type: integer
+          format: int64
+        assignedDate:
+          type: string
+        assignedToUser:
+          type: string
+        assignedByUser:
+          type: string
+        actionPerformedByRoleName:
+          type: string
+        category:
+          type: string
+    postLoanAssignment:
+      type: object
+      properties:
+        assigned_by_role:
+          type: string
+        assigned_to:
+          type: array
+          items:
+            $ref: "#/components/schemas/postLoanAssignmentDetail"
+    postLoanAssignmentDetail:
+      type: object
+      properties:
+        assigned_to_user:
+          type: string
+        category:
+          type: string
+    postLoanOrrTriggerScheduler:
+      type: object
+      properties:
+        loan_status:
+          type: string
+        trigger_by:
+          type: string
+    postLoanOrrCalculation:
+      type: object
+      properties:
+        id:
+          type: integer
+        previous_orr:
+          type: string
+        previous_orr_calculated_at:
+          type: string
+          format: date
+        orr:
+          type: string
+        orr_calculated_at:
+          type: string
+          format: date
+    putLoanAssignment:
+      type: object
+      properties:
+        remove_users:
+          type: array
+          items:
+            type: string
+    getFdcInquiry:
+      type: object
+      properties:
+        noIdentitas:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        inquiryReason:
+          type: string
+        memberId:
+          type: string
+        memberName:
+          type: string
+        refferenceId:
+          type: string
+        inquiryDate:
+          type: string
+        status:
+          type: string
+        pinjaman:
+          type: array
+          items:
+            $ref: "#/components/schemas/getFdcInquiryDetail"
+    getFdcInquiryDetail:
+      type: object
+      properties:
+        id_penyelenggara:
+          type: number
+        jenis_pengguna:
+          type: number
+        nama_borrower:
+          type: string
+        no_identitas:
+          type: string
+        no_npwp:
+          type: string
+        tgl_perjanjian_borrower:
+          type: string
+          format: date
+        tgl_penyaluran_dana:
+          type: string
+          format: date
+        nilai_pendanaan:
+          type: number
+        tgl_pelaporan_data:
+          type: string
+          format: date
+        sisa_pinjaman_berjalan:
+          type: number
+        tgl_jatuh_tempo_pinjaman:
+          type: string
+          format: date
+        kualitas_pinjaman:
+          type: number
+        dpd_terakhir:
+          type: number
+        dpd_max:
+          type: number
+        status_pinjaman:
+          type: string
+        jenis_pengguna_ket:
+          type: string
+        kualitas_pinjaman_ket:
+          type: string
+        status_pinjaman_ket:
+          type: string
+    changeRequests:
+      type: object
+      properties:
+        reason:
+          type: string
+        approver:
+          type: string
+        data:
+          $ref: "#/components/schemas/changeRequestData"
+    changeRequestData:
+      type: object
+      description: The properties for data varies based on change request type
+      properties:
+        tenor_type:
+          type: integer
+          description: can be used in change request type loan_terms
+        tenorLength:
+          type: integer
+          description: can be used in change request type loan_terms
+        installmentType:
+          type: integer
+          description: can be used in change request type loan_terms
+        interestRate:
+          type: integer
+          description: can be used in change request type loan_terms
+        interestRateEffective:
+          type: integer
+          description: can be used in change request type loan_terms
+        interestType:
+          type: integer
+          description: can be used in change request type loan_terms
+        earlyRepaymentFeeCom:
+          type: integer
+          description: can be used in change request type loan_fees
+        earlyRepaymentFeeInv:
+          type: integer
+          description: can be used in change request type loan_fees
+        gracePeriod:
+          type: integer
+          description: can be used in change request type loan_fees
+        gst:
+          type: integer
+          description: can be used in change request type loan_fees
+        lateFee:
+          type: integer
+          description: can be used in change request type loan_fees
+        lateFeePeriod:
+          type: integer
+          description: can be used in change request type loan_fees
+        lateFeeIsPercentage:
+          type: boolean
+          description: can be used in change request type loan_fees
+        lateInterestFee:
+          type: integer
+          description: can be used in change request type loan_fees
+        lateInterestPeriod:
+          type: integer
+          description: can be used in change request type loan_fees
+        originationFee:
+          type: integer
+          description: can be used in change request type loan_fees
+        guaranteeFee:
+          type: integer
+          description: can be used in change request type loan_fees
+        serviceFee:
+          type: integer
+          description: can be used in change request type loan_fees
+        serviceFeeProrate:
+          type: integer
+          description: can be used in change request type loan_fees
+        serviceFeeScope:
+          type: integer
+          description: can be used in change request type loan_fees
+        branchCode:
+          type: string
+          description: can be used in change request type loan_info
+        externalNotes:
+          type: string
+          description: can be used in change request type loan_info
+        grade:
+          type: string
+          description: can be used in change request type loan_info
+        deviation:
+          type: string
+          description: can be used in change request type loan_info
+        deviationReason:
+          type: string
+          description: can be used in change request type loan_info
+        cfSource:
+          type: string
+          description: can be used in change request type loan_info
+        channelId:
+          type: integer
+          description: can be used in change request type loan_static
+        partnerId:
+          type: integer
+          description: can be used in change request type loan_static
+        statusId:
+          type: integer
+          description: can be used in change request type loan_status
+    channel:
+      type: object
+      properties:
+        name:
+          type: string
+        code:
+          type: string
+        isDefault:
+          type: boolean
+        countryCode:
+          type: string
